@@ -1,0 +1,53 @@
+{
+  "intro": [
+    { "prefix": ">", "ref": "welcome", "message": "Hi there" },
+    { "prefix": ">", "message": "I'm Justin." },
+    { "prefix": ">", "ref": "position", "isCursor": true },
+    { "prefix": ">" },
+    { "prefix": ">", "message": "Scroll down to continue..." }
+  ],
+  "totalCoach": [
+    { "prefix": ">", "message": "My Experience" },
+    { "prefix": "", "message": "" },
+    { "prefix": ">", "message": "TotalCoach" },
+    { "prefix": ">", "message": "Junior Software Developer" },
+    { "prefix": ">", "message": "-------------------------" },
+    {
+      "prefix": ">",
+      "message": "Revamped and developed a responsive Athlete client portal application based on their existing product with Next.js 14"
+    },
+    {
+      "prefix": ">",
+      "message": "Built readable and reusable code with maintenance in mind with TypeScript and React"
+    },
+    {
+      "prefix": ">",
+      "message": "Maintained their existing website and Athlete client portal using HTML, CSS and JavaScript"
+    },
+    {
+      "prefix": ">",
+      "message": "Collaborated with back-end developers and UI/UX designers for the revamped client portal using tools like Git/GitHub, Jira and Slack"
+    }
+  ],
+  "infosys": [
+    { "prefix": ">", "message": "Infosys (Spark)" },
+    { "prefix": ">", "message": "Technical Associate (Frontend Developer)" },
+    { "prefix": ">", "message": "-------------------------" },
+    {
+      "prefix": ">",
+      "message": "Collaborated with developers and UX designers in the Convergence squad to merge multiple in-house Spark analytic applications and develop a market share insights app"
+    },
+    {
+      "prefix": ">",
+      "message": "Improved RESTful API integration for parsing KPI data and Geojson data to reduce maximum loading times from 20 seconds down to 5 seconds for nodes of around 1000"
+    },
+    {
+      "prefix": ">",
+      "message": "Spear-headed the migration of the repository from JavaScript using my expertise of TypeScript and mentorship to provide robustness and maintain Spark standards in the repo"
+    },
+    {
+      "prefix": ">",
+      "message": "Innovated working standards and established the data app engineer chapter"
+    }
+  ]
+}

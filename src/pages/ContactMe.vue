@@ -1,8 +1,20 @@
+<script setup>
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
+const onSubmit = () => {
+  // TODO: Next PR will need to create email functionality
+  toast.success("Inquiry message sent!", { timeout: 2000 });
+};
+</script>
 <template>
-  <section class="flex flex-col justify-center items-center size-full gap-2">
-    <div class="h-fit w-full lg:w-1/3 flex flex-col items-center gap-5 p-10">
+  <section
+    id="contact-me"
+    class="flex flex-col justify-center items-center w-full h-screen"
+  >
+    <div class="h-fit w-full lg:w-[400px] flex flex-col items-center gap-5 p-2">
       <h1 class="text-2xl font-bold">Get in touch with me</h1>
-      <form class="flex flex-col gap-5 w-full max-w-500">
+      <form class="flex flex-col w-full gap-2" @submit.prevent="onSubmit">
         <label class="form-control">
           <div class="label">
             <span class="text-lg font-semibold">Email</span>
