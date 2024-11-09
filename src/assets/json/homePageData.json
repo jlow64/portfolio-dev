@@ -1,8 +1,8 @@
 {
   "intro": [
-    { "prefix": ">", "ref": "welcome", "message": "Hi there" },
+    { "prefix": ">", "id": "welcome", "message": "Hi there" },
     { "prefix": ">", "message": "I'm Justin." },
-    { "prefix": ">", "ref": "position", "isCursor": true },
+    { "prefix": ">", "id": "position", "isCursor": true },
     { "prefix": ">" },
     { "prefix": ">", "message": "Scroll down to continue..." }
   ],

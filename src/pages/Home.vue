@@ -3,7 +3,7 @@ import { Icon } from "@iconify/vue";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import TextPlugin from "gsap/TextPlugin";
-import { onMounted, ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import { cn } from "@/lib/utils";
 import data from "@/assets/json/homePageData.json";
 import {
@@ -11,7 +11,6 @@ import {
   downArrowConfig,
   pageScrollConfig,
   fadeInFromToConfig,
-  positionTargets,
   positionTimelineConfig,
   duration,
   cursorAnimation,
@@ -21,16 +20,19 @@ import {
 gsap.registerPlugin(ScrollTrigger, TextPlugin);
 
 const pageData = ref(data);
+let ctx: gsap.Context;
 
 // Animation Refs
-const icon = ref();
-const position = ref();
-const introSection = ref();
-const welcome = ref();
-const cursor = ref();
-const scrollPrompt = ref();
+const intro = ref();
 const totalCoach = ref();
 const infosys = ref();
+
+const positionsArray = [
+  "Software Developer.",
+  "Software Engineer.",
+  "React Enjoyer.",
+  "Vue Learner.",
+];
 
 // css
 const classes = ref({
@@ -47,41 +49,46 @@ const classes = ref({
 });
 
 onMounted(() => {
-  gsap.context(() => {
+  // Intro animation
+  ctx = gsap.context((self) => {
     // Intro animation
-    gsap.fromTo(
-      introSection.value,
-      fadeInFromToConfig.from,
-      fadeInFromToConfig.to
-    );
+    if (self.selector) {
+      // Intro fade in animation
+      const introWrapper = self.selector("#intro-wrapper");
+      gsap.fromTo(introWrapper, fadeInFromToConfig.from, fadeInFromToConfig.to);
 
-    // Cursor Animation
-    gsap.to(cursor.value, cursorAnimation);
-
-    // Position Animation
-    let positionTimeline = gsap.timeline(positionTimelineConfig);
-    positionTargets.forEach((item) => {
-      let t1Text = gsap.timeline(textTimelineConfig);
-      t1Text.to(position.value, {
-        duration: duration,
-        text: item,
+      // Intro scroll animation
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: introWrapper,
+          ...pageScrollConfig,
+        },
       });
-      positionTimeline.add(t1Text);
-    });
 
-    // Down arrow prompt animation
-    gsap.to(icon.value, downArrowConfig);
+      // Welcome color breathing animation
+      const welcome = self.selector("#welcome");
+      gsap.fromTo(welcome, colorBreathConfig.from, colorBreathConfig.to);
 
-    // Welcome color breathing animation
-    gsap.fromTo(welcome.value, colorBreathConfig.from, colorBreathConfig.to);
+      // Positions Animation
+      const position = self.selector("#position");
+      let positionTimeline = gsap.timeline(positionTimelineConfig);
+      positionsArray.forEach((item) => {
+        let t1Text = gsap.timeline(textTimelineConfig);
+        t1Text.to(position, {
+          duration: duration,
+          text: item,
+        });
+        positionTimeline.add(t1Text);
+      });
 
-    // Intro scroll animation
-    gsap.timeline({
-      scrollTrigger: {
-        trigger: introSection.value,
-        ...pageScrollConfig,
-      },
-    });
+      // Cursor Animation
+      const cursor = self.selector("#cursor");
+      gsap.to(cursor, cursorAnimation);
+
+      // Down arrow prompt animation
+      const icon = self.selector("#icon");
+      gsap.to(icon, downArrowConfig);
+    }
 
     // TotalCoach scroll animation
     gsap.timeline({
@@ -98,26 +105,26 @@ onMounted(() => {
         ...pageScrollConfig,
       },
     });
-  });
+  }, intro.value);
+});
+
+onUnmounted(() => {
+  ctx.revert();
 });
 </script>
 <template>
-  <section id="home" :class="classes.section">
-    <article
-      id="test-text"
-      ref="introSection"
-      :class="cn(classes.article, 'gap-12')"
-    >
+  <section id="home" ref="intro" :class="classes.section">
+    <article id="intro-wrapper" :class="cn(classes.article, 'gap-12')">
       <div :class="cn(classes.code.container, classes.code.intro)">
         <pre
           :class="classes.code.pre"
           v-for="(data, index) in pageData.intro"
           :key="index"
           :data-prefix="data.prefix"
-        ><code :class="classes.code.message"><span :ref="data.ref">{{ data.message }}</span><span ref="cursor" v-if="data.isCursor">_</span></code></pre>
+        ><code :class="classes.code.message"><span :id="data.id">{{ data.message }}</span><span id="cursor" v-if="data.isCursor">_</span></code></pre>
       </div>
-      <span ref="scrollPrompt" :class="classes.icon">
-        <a ref="icon"
+      <span :class="classes.icon">
+        <a id="icon"
           ><Icon icon="radix-icons:double-arrow-down" height="3rem"
         /></a>
       </span>

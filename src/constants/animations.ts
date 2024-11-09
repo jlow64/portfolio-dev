@@ -17,13 +17,6 @@ export const cursorAnimation = {
   ease: "power2.inOut",
 };
 
-export const positionTargets = [
-  "Software Developer.",
-  "Software Engineer.",
-  "React Enjoyer.",
-  "Vue Learner.",
-];
-export const numberOfTargets = positionTargets.length;
 export const duration = 1.5;
 export const textTimelineConfig = { repeat: 1, yoyo: true };
 export const positionTimelineConfig = {
