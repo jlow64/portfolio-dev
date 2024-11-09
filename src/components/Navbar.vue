@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { NavbarMenuIcon, NavbarMenu, ThemeSwitcher } from "@/components";
+import { NavbarMenuIcon, NavbarMenu } from "@/components";
 </script>
 
 <template>
-  <nav class="navbar bg-base-100">
+  <nav class="navbar bg-base-100 opacity-90 fixed top-0 z-10">
     <NavbarMenuIcon />
     <NavbarMenu />
-    <ThemeSwitcher />
+    <div class="navbar-end"></div>
   </nav>
 </template>

@@ -1,65 +1,157 @@
-<template>
-  <section
-    class="flex flex-col items-center size-full gap-2 border border-red-500"
-  >
-    <article class="border border-red-500">
-      <h1 class="text-xl">Hi there.</h1>
-      <p>Welcome to my website</p>
-    </article>
+<script setup lang="ts">
+import { Icon } from "@iconify/vue";
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+import TextPlugin from "gsap/TextPlugin";
+import { onMounted, onUnmounted, ref } from "vue";
+import { cn } from "@/lib/utils";
+import data from "@/assets/json/homePageData.json";
+import {
+  colorBreathConfig,
+  downArrowConfig,
+  pageScrollConfig,
+  fadeInFromToConfig,
+  positionTimelineConfig,
+  duration,
+  cursorAnimation,
+  textTimelineConfig,
+} from "@/constants";
 
-    <h1 class="text-xl border border-red-500">My current experiences</h1>
-    <div
-      class="h-fit w-3/4 lg:w-1/2 flex flex-1 flex-col gap-5 p-2 border border-red-500"
-    >
-      <h2 class="text-lg">TotalCoach</h2>
-      <h3 class="text-md">Junior Software Developer</h3>
-      <ul class="list-disc">
-        <li>
-          Revamped and developed a responsive Athlete client portal application
-          based on their existing product with Next.js 14
-        </li>
-        <li>
-          Built readable and reusable code with maintenance in mind with
-          TypeScript and React
-        </li>
-        <li>
-          Maintained their existing website and Athlete client portal using
-          HTML, CSS and JavaScript
-        </li>
-        <li>
-          Collaborated with back-end developers and UI/UX designers for the
-          revamped client portal using tools like GIt/GitHub, Jira and Slack
-        </li>
-      </ul>
-    </div>
-    <div class="h-fit w-3/4 lg:w-1/2 flex flex-1 flex-col gap-5 p-2 rounded-md">
-      <h2 class="text-lg">Spark (Infosys)</h2>
-      <h3 class="text-md">Front End Developer</h3>
-      <ul class="list-disc">
-        <li>
-          Collaborated with developers and UX designers in the Convergence squad
-          to merge multiple in-house Spark analytic applications and develop a
-          market share insights app
-        </li>
-        <li>
-          Improved RESTful API integration for parsing KPI data and Geojson data
-          to reduce maximum loading times from 20 seconds down to 5 seconds for
-          nodes of around 1000
-        </li>
-        <li>
-          Presented demo of the application workflow from data selection to
-          filter application to senior executives and stakeholders at Spark NZ
-        </li>
-        <li>
-          Spear-headed the migration of the repository from JavaScript using my
-          expertise of TypeScript and mentorship to provide robustness and
-          maintain Spark standards in the repo.
-        </li>
-        <li>
-          Innovated working standards and established the data app engineer
-          chapter
-        </li>
-      </ul>
-    </div>
+gsap.registerPlugin(ScrollTrigger, TextPlugin);
+
+const pageData = ref(data);
+let ctx: gsap.Context;
+
+// Animation Refs
+const intro = ref();
+const totalCoach = ref();
+const infosys = ref();
+
+const positionsArray = [
+  "Software Developer.",
+  "Software Engineer.",
+  "React Enjoyer.",
+  "Vue Learner.",
+];
+
+// css
+const classes = ref({
+  section: "h-screen-db",
+  article: "h-1/2 flex flex-col justify-center items-center",
+  icon: "flex flex-row",
+  code: {
+    container: "mockup-code max-w-4xl",
+    intro: "text-lg lg:text-2xl",
+    experience: "text-sm lg:text-lg",
+    pre: "flex flex-1 flex-row min-h-7 text-wrap",
+    message: "flex flex-1",
+  },
+});
+
+onMounted(() => {
+  // Intro animation
+  ctx = gsap.context((self) => {
+    // Intro animation
+    if (self.selector) {
+      // Intro fade in animation
+      const introWrapper = self.selector("#intro-wrapper");
+      gsap.fromTo(introWrapper, fadeInFromToConfig.from, fadeInFromToConfig.to);
+
+      // Intro scroll animation
+      gsap.timeline({
+        scrollTrigger: {
+          trigger: introWrapper,
+          ...pageScrollConfig,
+        },
+      });
+
+      // Welcome color breathing animation
+      const welcome = self.selector("#welcome");
+      gsap.fromTo(welcome, colorBreathConfig.from, colorBreathConfig.to);
+
+      // Positions Animation
+      const position = self.selector("#position");
+      let positionTimeline = gsap.timeline(positionTimelineConfig);
+      positionsArray.forEach((item) => {
+        let t1Text = gsap.timeline(textTimelineConfig);
+        t1Text.to(position, {
+          duration: duration,
+          text: item,
+        });
+        positionTimeline.add(t1Text);
+      });
+
+      // Cursor Animation
+      const cursor = self.selector("#cursor");
+      gsap.to(cursor, cursorAnimation);
+
+      // Down arrow prompt animation
+      const icon = self.selector("#icon");
+      gsap.to(icon, downArrowConfig);
+    }
+
+    // TotalCoach scroll animation
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: totalCoach.value,
+        ...pageScrollConfig,
+      },
+    });
+
+    // Infosys scroll animation
+    gsap.timeline({
+      scrollTrigger: {
+        trigger: infosys.value,
+        ...pageScrollConfig,
+      },
+    });
+  }, intro.value);
+});
+
+onUnmounted(() => {
+  ctx.revert();
+});
+</script>
+<template>
+  <section id="home" ref="intro" :class="classes.section">
+    <article id="intro-wrapper" :class="cn(classes.article, 'gap-12')">
+      <div :class="cn(classes.code.container, classes.code.intro)">
+        <pre
+          :class="classes.code.pre"
+          v-for="(data, index) in pageData.intro"
+          :key="index"
+          :data-prefix="data.prefix"
+        ><code :class="classes.code.message"><span :id="data.id">{{ data.message }}</span><span id="cursor" v-if="data.isCursor">_</span></code></pre>
+      </div>
+      <span :class="classes.icon">
+        <a id="icon"
+          ><Icon icon="radix-icons:double-arrow-down" height="3rem"
+        /></a>
+      </span>
+    </article>
+  </section>
+  <section ref="totalCoach" :class="classes.section">
+    <article :class="classes.article">
+      <div :class="cn(classes.code.container, classes.code.experience)">
+        <pre
+          :class="classes.code.pre"
+          v-for="(data, index) in pageData.totalCoach"
+          :key="index"
+          :data-prefix="data.prefix"
+        ><code :class="classes.code.message">{{ data.message }}</code></pre>
+      </div>
+    </article>
+  </section>
+  <section ref="infosys" :class="classes.section">
+    <article :class="classes.article">
+      <div :class="cn(classes.code.container, classes.code.experience)">
+        <pre
+          :class="classes.code.pre"
+          v-for="(data, index) in pageData.infosys"
+          :key="index"
+          :data-prefix="data.prefix"
+        ><code :class="classes.code.message">{{ data.message }}</code></pre>
+      </div>
+    </article>
   </section>
 </template>

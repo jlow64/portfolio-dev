@@ -3,7 +3,11 @@ import type { Config } from "tailwindcss";
 export default {
   content: ["./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"],
   theme: {
-    extend: {},
+    extend: {
+      spacing: {
+        "screen-db": "200vh",
+      },
+    },
   },
   plugins: [require("daisyui")],
   daisyui: {
