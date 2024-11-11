@@ -11,7 +11,7 @@ const form = ref();
 
 // css
 const classes = ref({
-  section: "flex flex-col justify-center items-center w-full h-screen z-50",
+  section: "flex flex-col justify-center items-center w-full h-screen z-40",
   form: {
     wrapper: "h-fit w-full lg:w-[400px] flex flex-col items-center gap-5 p-2",
     title: "text-2xl font-bold",
