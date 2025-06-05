@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+:root {
+  --background: #cecece;
+  --foreground: #242424;
+  --primary: #448ee4;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --font-forum: var(--font-forum);
+  --font-poppins: var(--font-poppins);
+  --text-h1: 287.07px;
+  --text-h2: 177.42px;
+  --text-h3: 109.66px;
+  --text-h4: 67.77px;
+  --text-h5: 41.89px;
+  --text-h6: 25.89px;
+  --text-p: 16px;
+  --text-small: 9.89px;
+  --text-xs: 6.11px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #1b1b1b;
+    --foreground: #e6e6e6;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+}
