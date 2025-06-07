@@ -3,12 +3,32 @@ import {
   defaultShouldDehydrateQuery,
   isServer,
 } from "@tanstack/react-query";
+import { XiorError } from "xior";
+
+type QueryError = Partial<{
+  status: number;
+  message: string;
+  original?: XiorError & unknown;
+}>;
 
 function makeQueryClient() {
   return new QueryClient({
     defaultOptions: {
       queries: {
         staleTime: 60 * 1000,
+        retry: (count, error: QueryError) => {
+          // If it ssr, don't retry. If it is client, retry 3 times.
+          const attempts = isServer ? 0 : 3;
+
+          if (error?.status) {
+            if (error.status >= 400 && error.status < 500) return false;
+          }
+
+          return attempts < count;
+        },
+        // Disable redundant client side fetching
+        refetchOnMount: false,
+        refetchOnWindowFocus: false,
       },
       dehydrate: {
         // include pending queries in dehydration

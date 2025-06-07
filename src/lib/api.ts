@@ -1,5 +1,5 @@
-import { fetcher } from "@/lib/fetcher";
 import { queryOptions } from "@tanstack/react-query";
+import { fetcher } from "./fetcher";
 
 type Project = {
   id: number;
@@ -14,5 +14,5 @@ type Project = {
 
 export const projectOptions = queryOptions({
   queryKey: ["project"],
-  queryFn: async () => await fetcher<Project>("/api/project"),
+  queryFn: () => fetcher<Project[]>("/api/project"),
 });
