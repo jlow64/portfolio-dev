@@ -3,12 +3,12 @@
 import React, { useState } from "react";
 import { cn } from "@/lib/util";
 import { MenuIcon } from "./icons/MenuIcon";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
 
 const classes = {
-  container: "@container/nav",
+  container: "@container/nav ",
   wrapper:
-    "flex flex-col @md/nav:flex-row justify-between items-center w-full min-h-[100px] px-6 gap-4",
+    "fixed top-0 z-[1000] flex flex-col @md/nav:flex-row justify-between items-center w-full min-h-[100px] px-6 gap-4 bg-background/20",
   menu: {
     wrapper:
       "h-[100px] w-full @md/nav:w-fit flex gap-4 items-center justify-between",
@@ -17,19 +17,19 @@ const classes = {
   },
   items: {
     wrapper:
-      "hidden @md/nav:flex @md/nav:w-full gap-4 justify-center font-forum text-p @md:text-p text-shadow-lg",
+      "hidden @md/nav:flex @md/nav:w-full gap-4 justify-center font-forum text-p @md:text-[16px] text-shadow-lg",
     item: "size-full max-w-[300px] flex-1 flex justify-center transition-all duration-800 ease-in-out cursor-pointer",
   },
 };
 
 const navbarItems = [
   { label: "Home", url: "/" },
-  { label: "Projects", url: "/projects" },
-  { label: "Contact", url: "/contact" },
+  { label: "Projects", url: "/" },
+  { label: "Contact", url: "/" },
 ];
 
 const Navbar = () => {
-  const router = useRouter();
+  // const router = useRouter();
   const [isToggled, setIsToggled] = useState<boolean>(false);
 
   const mobileMenu = isToggled && "flex flex-col @md/nav:flex-row";
@@ -49,7 +49,7 @@ const Navbar = () => {
             <li
               key={item.label}
               className={classes.items.item}
-              onClick={() => router.push(item.url)}
+              // onClick={() => router.push(item.url)}
             >
               {item.label}
             </li>
